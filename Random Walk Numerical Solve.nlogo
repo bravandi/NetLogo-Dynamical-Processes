@@ -96,7 +96,7 @@ to wire3
 
   repeat 30 [ layout-spring turtles links 0.1 2 2 ] ;; lays the nodes in a triangle
 
-  let file-name "C:/Users/Babak Ravandi/net-adj.txt"
+  let file-name "net-adj.txt"
 
   nw:save-matrix file-name
 
@@ -450,7 +450,6 @@ Press SETUP to create the nodes.
 
 
 ## COPYRIGHT AND LICENSE
-
 @#$#@#$#@
 default
 true
