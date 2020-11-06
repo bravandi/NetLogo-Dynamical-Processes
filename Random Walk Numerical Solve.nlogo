@@ -94,7 +94,7 @@ end
 
 
 to wire-network
-  ifelse ER_or_PA_model
+  ifelse ER-or-BA-model
   [nw:generate-preferential-attachment turtles links num-nodes average-degree]
   [nw:generate-random turtles links num-nodes average-degree / num-nodes ]
 
@@ -220,9 +220,9 @@ ticks
 
 BUTTON
 0
-265
+255
 75
-298
+288
 NIL
 setup
 NIL
@@ -267,9 +267,9 @@ HORIZONTAL
 
 MONITOR
 0
-370
+360
 61
-415
+405
 max-deg
 max [count link-neighbors] of turtles
 1
@@ -278,9 +278,9 @@ max [count link-neighbors] of turtles
 
 MONITOR
 137
-370
+360
 194
-415
+405
 #links
 count links
 1
@@ -289,9 +289,9 @@ count links
 
 MONITOR
 67
-370
+360
 133
-415
+405
 min-deg
 min [count link-neighbors] of turtles
 1
@@ -300,9 +300,9 @@ min [count link-neighbors] of turtles
 
 BUTTON
 85
-265
+255
 170
-298
+288
 NIL
 go
 T
@@ -317,9 +317,9 @@ NIL
 
 BUTTON
 0
-305
+295
 165
-338
+328
 NIL
 reset
 NIL
@@ -406,17 +406,17 @@ SWITCH
 210
 147
 243
-ER_or_PA_model
-ER_or_PA_model
+ER-or-BA-model
+ER-or-BA-model
 0
 1
 -1000
 
 PLOT
 0
-425
+415
 225
-685
+675
 Degree Distribution
 Degree
 # of nodes
