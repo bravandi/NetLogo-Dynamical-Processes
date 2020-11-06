@@ -7,10 +7,12 @@ turtles-own [w w-prev]
 ;; Create nodes.
 to setup
   clear-all
-  wire3
+
+  wire-network
+
   ask turtles [
     set shape "circle"
-    set size 0.5
+    ;set size 0.5
     setxy random-xcor random-ycor
   ]
 
@@ -18,18 +20,19 @@ to setup
   reset
   apply-style
 
-
-  layout-spring turtles links 0.1 2 2
-
-
   reset-ticks
 end
 
 to reset
   print "RESET!"
-  let num_tu round total_walkers / inital_turtles
+  let num_tu round total_walkers / num-nodes-start-with-walker
 
-  ask n-of inital_turtles turtles [
+  ask turtles [
+    set w 0
+
+  ]
+
+  ask n-of num-nodes-start-with-walker turtles [
     set w num_tu
     set w-prev num_tu
     set label who
@@ -41,7 +44,13 @@ end
 
 to apply-style
   ask turtles [
-    set size w / 8
+    let new-size w / 4
+
+    if new-size > 5 [ set new-size 4.5 ]
+
+    if new-size < 0.1 [ set new-size 0.25 ]
+
+    set size new-size
   ]
 end
 
@@ -83,14 +92,13 @@ plotxy ticks count turtles
   tick
 end
 
-;; This is the classic Erdős-Rényi random network.
-;; It uses WHILE to ensure we get NUM-LINKS links.
-to wire3
-  ifelse PAnetwork
+
+to wire-network
+  ifelse ER_or_PA_model
   [nw:generate-preferential-attachment turtles links num-nodes average-degree]
   [nw:generate-random turtles links num-nodes average-degree / num-nodes ]
 
-  repeat 30 [ layout-spring turtles links 0.1 2 2 ] ;; lays the nodes in a triangle
+  repeat 20 [ layout-spring turtles links 0.01 0.1 0.1 ] ;; lays the nodes in a triangle
 
   let file-name "net-adj.txt"
 
@@ -104,9 +112,6 @@ to wire3
     let line file-read-line
 
     let a read-from-string (word"[" line "]")
-
-    ;let a []
-    ;set a lput line a
 
     set matrix-list lput a matrix-list
 
@@ -185,19 +190,11 @@ to print-w
 
   print out
 end
-
-
-;; Report the maximum number of links that can be added
-;; to a random network, given the specified number
-;; of nodes, with 1000 as an arbitrary upper bound
-to-report max-links
-  report min (list (num-nodes * (num-nodes - 1) / 2) 1000)
-end
 @#$#@#$#@
 GRAPHICS-WINDOW
-265
+245
 10
-1068
+1048
 814
 -1
 -1
@@ -222,10 +219,10 @@ ticks
 30.0
 
 BUTTON
-5
-185
-175
-218
+0
+265
+75
+298
 NIL
 setup
 NIL
@@ -239,40 +236,40 @@ NIL
 1
 
 SLIDER
+0
 10
-10
-180
+225
 43
 num-nodes
 num-nodes
 10
 500
-300.0
+150.0
 5
 1
 NIL
 HORIZONTAL
 
 SLIDER
-5
-55
-177
-88
-average-degree
-average-degree
 0
-20
-3.0
+45
+225
+78
+average-degree
+average-degree
 1
+10
+4.0
+0.1
 1
 NIL
 HORIZONTAL
 
 MONITOR
-5
-310
-66
-355
+0
+370
+61
+415
 max-deg
 max [count link-neighbors] of turtles
 1
@@ -280,10 +277,10 @@ max [count link-neighbors] of turtles
 11
 
 MONITOR
-142
-310
-199
-355
+137
+370
+194
+415
 #links
 count links
 1
@@ -291,10 +288,10 @@ count links
 11
 
 MONITOR
-72
-310
-138
-355
+67
+370
+133
+415
 min-deg
 min [count link-neighbors] of turtles
 1
@@ -302,10 +299,10 @@ min [count link-neighbors] of turtles
 11
 
 BUTTON
-5
-225
+85
+265
 170
-258
+298
 NIL
 go
 T
@@ -319,10 +316,10 @@ NIL
 1
 
 BUTTON
-5
-270
-170
-303
+0
+305
+165
+338
 NIL
 reset
 NIL
@@ -357,10 +354,10 @@ PENS
 "Q4" 1.0 0 -955883 true "" "plot avg-walkers 3"
 
 SLIDER
-10
-140
-182
-173
+0
+80
+225
+113
 p
 p
 0
@@ -372,15 +369,15 @@ NIL
 HORIZONTAL
 
 SLIDER
-10
-415
-182
-448
+0
+130
+225
+163
 total_walkers
 total_walkers
 500
 1000
-500.0
+1000.0
 100
 1
 NIL
@@ -405,21 +402,21 @@ PENS
 "pen-0" 1.0 2 -16777216 true "" "let deg-l get-degree-list\nlet w-means []\nlet w-mean 0\n\nforeach (get-degree-list) [ deg -> \n  set w-mean mean [w] of turtles with [ count my-links = deg]\n  set w-means lput w-mean w-means\n  plotxy deg w-mean\n]\n\nset-plot-y-range 0 (round (max w-means)) + 1\n\nset-plot-x-range 0 (max deg-l + 1)"
 
 SWITCH
-40
-545
-152
-578
-PAnetwork
-PAnetwork
-1
+0
+210
+147
+243
+ER_or_PA_model
+ER_or_PA_model
+0
 1
 -1000
 
 PLOT
-1500
-435
-1700
-585
+0
+425
+225
+685
 Degree Distribution
 Degree
 # of nodes
@@ -429,20 +426,20 @@ Degree
 10.0
 true
 false
-"" ""
+"clear-plot" "clear-plot"
 PENS
 "default" 1.0 1 -16777216 false "" "let max-degree max [count link-neighbors] of turtles\nplot-pen-reset  ;; erase what we plotted before\nset-plot-x-range 1 (max-degree + 1)  ;; + 1 to make room for the width of the last bar\nhistogram [count link-neighbors] of turtles"
 
 SLIDER
-10
-375
-182
-408
-inital_turtles
-inital_turtles
+0
+165
+225
+198
+num-nodes-start-with-walker
+num-nodes-start-with-walker
 1
 num-nodes
-250.0
+3.0
 1
 1
 NIL
@@ -497,7 +494,7 @@ If you mention this model or the NetLogo software in a publication, we ask that 
 
 For the model itself:
 
-To be determined (2021). NetLogo Models for studying Dynamical Processes on Complex Networks, Northeastern University, Boston, MA.
+TBD (2020). NetLogo Models for studying Dynamical Processes on Complex Networks, Northeastern University, Boston, MA.
 
 Please cite the NetLogo software as:
 
