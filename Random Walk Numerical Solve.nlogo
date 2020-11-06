@@ -1,6 +1,6 @@
 extensions [ nw matrix ]
 
-globals [adj PAnetwork?]
+globals [adj PAnetwork? ]
 
 turtles-own [w w-prev]
 
@@ -19,17 +19,19 @@ to setup
   apply-style
 
 
-  layout-spring turtles links 0.2 5 1
+  layout-spring turtles links 0.1 2 2
+
 
   reset-ticks
 end
 
 to reset
   print "RESET!"
+  let num_tu round total_walkers / inital_turtles
 
-  ask turtles [
-    set w walkers-num
-    set w-prev w
+  ask n-of inital_turtles turtles [
+    set w num_tu
+    set w-prev num_tu
     set label who
   ]
 
@@ -39,7 +41,7 @@ end
 
 to apply-style
   ask turtles [
-    set size w / 4
+    set size w / 8
   ]
 end
 
@@ -48,9 +50,7 @@ to go
 plotxy ticks count turtles
   ask turtles [
     let i who
-
     ;print (word "I am:" i)
-
     let out w-prev * p
 
     let in 0
@@ -195,9 +195,9 @@ to-report max-links
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-210
+265
 10
-1013
+1068
 814
 -1
 -1
@@ -245,24 +245,24 @@ SLIDER
 43
 num-nodes
 num-nodes
-2
+10
 500
-197.0
+300.0
 5
 1
 NIL
 HORIZONTAL
 
 SLIDER
-10
-100
-182
-133
+5
+55
+177
+88
 average-degree
 average-degree
 0
 20
-5.0
+3.0
 1
 1
 NIL
@@ -358,9 +358,9 @@ PENS
 
 SLIDER
 10
-55
+140
 182
-88
+173
 p
 p
 0
@@ -373,15 +373,15 @@ HORIZONTAL
 
 SLIDER
 10
-140
+415
 182
-173
-walkers-num
-walkers-num
-0
-10
-4.0
-1
+448
+total_walkers
+total_walkers
+500
+1000
+500.0
+100
 1
 NIL
 HORIZONTAL
@@ -405,10 +405,10 @@ PENS
 "pen-0" 1.0 2 -16777216 true "" "let deg-l get-degree-list\nlet w-means []\nlet w-mean 0\n\nforeach (get-degree-list) [ deg -> \n  set w-mean mean [w] of turtles with [ count my-links = deg]\n  set w-means lput w-mean w-means\n  plotxy deg w-mean\n]\n\nset-plot-y-range 0 (round (max w-means)) + 1\n\nset-plot-x-range 0 (max deg-l + 1)"
 
 SWITCH
-10
-405
-122
-438
+40
+545
+152
+578
 PAnetwork
 PAnetwork
 1
@@ -432,6 +432,21 @@ false
 "" ""
 PENS
 "default" 1.0 1 -16777216 false "" "let max-degree max [count link-neighbors] of turtles\nplot-pen-reset  ;; erase what we plotted before\nset-plot-x-range 1 (max-degree + 1)  ;; + 1 to make room for the width of the last bar\nhistogram [count link-neighbors] of turtles"
+
+SLIDER
+10
+375
+182
+408
+inital_turtles
+inital_turtles
+1
+num-nodes
+250.0
+1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## ACKNOWLEDGMENT
