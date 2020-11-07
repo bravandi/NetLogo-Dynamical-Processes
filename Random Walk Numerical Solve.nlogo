@@ -94,9 +94,13 @@ end
 
 
 to wire-network
-  ifelse ER-or-BA-model
-  [nw:generate-preferential-attachment turtles links num-nodes average-degree]
-  [nw:generate-random turtles links num-nodes average-degree / num-nodes ]
+  if network-model = "Erdos-Renyi" [
+    nw:generate-random turtles links num-nodes average-degree / num-nodes
+  ]
+
+  if network-model = "Barabási–Albert" [
+    nw:generate-preferential-attachment turtles links num-nodes average-degree
+  ]
 
   repeat 20 [ layout-spring turtles links 0.01 0.1 0.1 ] ;; lays the nodes in a triangle
 
@@ -220,9 +224,9 @@ ticks
 
 BUTTON
 0
-255
+285
 75
-288
+318
 NIL
 setup
 NIL
@@ -237,9 +241,9 @@ NIL
 
 SLIDER
 0
-10
+60
 225
-43
+93
 num-nodes
 num-nodes
 10
@@ -252,9 +256,9 @@ HORIZONTAL
 
 SLIDER
 0
-45
+95
 225
-78
+128
 average-degree
 average-degree
 1
@@ -267,9 +271,9 @@ HORIZONTAL
 
 MONITOR
 0
-360
+390
 61
-405
+435
 max-deg
 max [count link-neighbors] of turtles
 1
@@ -278,9 +282,9 @@ max [count link-neighbors] of turtles
 
 MONITOR
 137
-360
+390
 194
-405
+435
 #links
 count links
 1
@@ -289,9 +293,9 @@ count links
 
 MONITOR
 67
-360
+390
 133
-405
+435
 min-deg
 min [count link-neighbors] of turtles
 1
@@ -300,9 +304,9 @@ min [count link-neighbors] of turtles
 
 BUTTON
 85
-255
+285
 170
-288
+318
 NIL
 go
 T
@@ -317,9 +321,9 @@ NIL
 
 BUTTON
 0
-295
+325
 165
-328
+358
 NIL
 reset
 NIL
@@ -333,10 +337,10 @@ NIL
 1
 
 PLOT
-1095
-35
-1590
-410
+1070
+15
+1565
+390
 Avg Walkers in Degree Quartiles
 time
 avg walkers
@@ -355,9 +359,9 @@ PENS
 
 SLIDER
 0
-80
+165
 225
-113
+198
 p
 p
 0
@@ -370,24 +374,24 @@ HORIZONTAL
 
 SLIDER
 0
-130
+200
 225
-163
+233
 total_walkers
 total_walkers
 500
 1000
-1000.0
+800.0
 100
 1
 NIL
 HORIZONTAL
 
 PLOT
-1090
-445
-1490
-760
+1070
+405
+1470
+720
 Degree vs Average Number of Walkers
 degree
 avg walkers
@@ -401,22 +405,11 @@ false
 PENS
 "pen-0" 1.0 2 -16777216 true "" "let deg-l get-degree-list\nlet w-means []\nlet w-mean 0\n\nforeach (get-degree-list) [ deg -> \n  set w-mean mean [w] of turtles with [ count my-links = deg]\n  set w-means lput w-mean w-means\n  plotxy deg w-mean\n]\n\nset-plot-y-range 0 (round (max w-means)) + 1\n\nset-plot-x-range 0 (max deg-l + 1)"
 
-SWITCH
-0
-210
-147
-243
-ER-or-BA-model
-ER-or-BA-model
-0
-1
--1000
-
 PLOT
 0
-415
+445
 225
-675
+705
 Degree Distribution
 Degree
 # of nodes
@@ -432,9 +425,9 @@ PENS
 
 SLIDER
 0
-165
+235
 225
-198
+268
 num-nodes-start-with-walker
 num-nodes-start-with-walker
 1
@@ -444,6 +437,16 @@ num-nodes
 1
 NIL
 HORIZONTAL
+
+CHOOSER
+0
+10
+225
+55
+network-model
+network-model
+"Erdos-Renyi" "Barabási–Albert"
+0
 
 @#$#@#$#@
 ## ACKNOWLEDGEMENT
