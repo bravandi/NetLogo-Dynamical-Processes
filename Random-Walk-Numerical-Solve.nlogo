@@ -7,22 +7,19 @@ turtles-own [w w-prev]
 ;; Create nodes.
 to setup
   clear-all
+  reset-ticks
 
   wire-network
 
   ask turtles [
     set shape "circle"
-    set color scale-color green count link-neighbors 50 0
+    ;set color scale-color green count link-neighbors 50 0
     ;set size 0.5
     ;setxy random-xcor random-ycor
   ]
 
-  layout-circle sort-by [ [a b] -> [count link-neighbors] of a < [count link-neighbors] of b ] turtles 14
-
   ;set p 0.25
   reset
-  apply-style
-  reset-ticks
 end
 
 to reset
@@ -31,7 +28,6 @@ to reset
 
   ask turtles [
     set w 0
-
   ]
 
   ask n-of num-nodes-start-with-walker turtles [
@@ -40,7 +36,7 @@ to reset
     set label who
   ]
 
-  reset-ticks
+  ;reset-ticks
   apply-style
 end
 
@@ -48,7 +44,7 @@ to apply-style
   ask turtles [
     let new-size w / 4
 
-    if new-size > 5 [ set new-size 4.5 ]
+    if new-size > 5 [ set new-size 5.0 ]
 
     if new-size < 0.1 [ set new-size 0.25 ]
 
@@ -59,11 +55,11 @@ end
 
 to go
   ;print "GO!"
-plotxy ticks count turtles
+
   ask turtles [
     let i who
     ;print (word "I am:" i)
-    let out w-prev * p
+    let out w-prev * diffusion-probability
 
     let in 0
 
@@ -74,7 +70,7 @@ plotxy ticks count turtles
 
       if neighbor-degree > 0 [
 
-        set in (in + (matrix:get adj j i) * (p / neighbor-degree) * ([w-prev] of turtle j))
+        set in (in + (matrix:get adj j i) * (diffusion-probability / neighbor-degree) * ([w-prev] of turtle j))
       ]
 
       set j (j + 1)
@@ -97,11 +93,19 @@ end
 
 
 to wire-network
-  ifelse ER-or-BA-model
-  [nw:generate-preferential-attachment turtles links num-nodes average-degree]
-  [nw:generate-random turtles links num-nodes average-degree / num-nodes ]
 
-  ;repeat 20 [ layout-spring turtles links 0.01 0.1 0.1 ] ;; lays the nodes in a triangle
+  if network-model = "Erdős–Rényi" [
+    nw:generate-random turtles links num-nodes average-degree / num-nodes
+  ]
+
+  if network-model = "Barabási–Albert" [
+    nw:generate-preferential-attachment turtles links num-nodes average-degree
+  ]
+
+  repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
+  ;layout-spring turtles links 0.2 5 1
+
+  ;layout
 
   let file-name "net-adj.txt"
 
@@ -126,6 +130,33 @@ to wire-network
   print "MAT"
   set adj matrix:from-row-list matrix-list
   print adj
+end
+
+
+to layout
+  ;; the number 3 here is arbitrary; more repetitions slows down the
+  ;; model, but too few gives poor layouts
+  repeat 3 [
+    ;; the more turtles we have to fit into the same amount of space,
+    ;; the smaller the inputs to layout-spring we'll need to use
+    let factor sqrt count turtles
+    ;; numbers here are arbitrarily chosen for pleasing appearance
+    layout-spring turtles links (1 / factor) (7 / factor) (1 / factor)
+    display  ;; for smooth animation
+  ]
+  ;; don't bump the edges of the world
+  let x-offset max [xcor] of turtles + min [xcor] of turtles
+  let y-offset max [ycor] of turtles + min [ycor] of turtles
+  ;; big jumps look funny, so only adjust a little each time
+  set x-offset limit-magnitude x-offset 0.1
+  set y-offset limit-magnitude y-offset 0.1
+  ask turtles [ setxy (xcor - x-offset / 2) (ycor - y-offset / 2) ]
+end
+
+to-report limit-magnitude [number limit]
+  if number > limit [ report limit ]
+  if number < (- limit) [ report (- limit) ]
+  report number
 end
 
 to-report calc-pct [ #pct #vals ]
@@ -191,13 +222,11 @@ to print-w
 
   print out
 end
-
-
 @#$#@#$#@
 GRAPHICS-WINDOW
-245
+235
 10
-1048
+1038
 814
 -1
 -1
@@ -223,9 +252,9 @@ ticks
 
 BUTTON
 0
-255
+325
 75
-288
+358
 NIL
 setup
 NIL
@@ -240,14 +269,14 @@ NIL
 
 SLIDER
 0
-10
+60
 225
-43
+93
 num-nodes
 num-nodes
 10
 500
-120.0
+50.0
 5
 1
 NIL
@@ -255,14 +284,14 @@ HORIZONTAL
 
 SLIDER
 0
-45
+95
 225
-78
+128
 average-degree
 average-degree
 1
 10
-4.0
+6.6
 0.1
 1
 NIL
@@ -270,9 +299,9 @@ HORIZONTAL
 
 MONITOR
 0
-360
+430
 61
-405
+475
 max-deg
 max [count link-neighbors] of turtles
 1
@@ -281,9 +310,9 @@ max [count link-neighbors] of turtles
 
 MONITOR
 137
-360
+430
 194
-405
+475
 #links
 count links
 1
@@ -292,9 +321,9 @@ count links
 
 MONITOR
 67
-360
+430
 133
-405
+475
 min-deg
 min [count link-neighbors] of turtles
 1
@@ -303,9 +332,9 @@ min [count link-neighbors] of turtles
 
 BUTTON
 85
-255
+325
 170
-288
+358
 NIL
 go
 T
@@ -320,9 +349,9 @@ NIL
 
 BUTTON
 0
-295
+365
 165
-328
+398
 NIL
 reset
 NIL
@@ -358,11 +387,11 @@ PENS
 
 SLIDER
 0
-80
+210
 225
-113
-p
-p
+243
+diffusion-probability
+diffusion-probability
 0
 1
 0.1
@@ -373,14 +402,14 @@ HORIZONTAL
 
 SLIDER
 0
-130
+250
 225
-163
+283
 total_walkers
 total_walkers
 500
 1000
-800.0
+600.0
 100
 1
 NIL
@@ -404,22 +433,11 @@ false
 PENS
 "pen-0" 1.0 2 -16777216 true "" "let deg-l get-degree-list\nlet w-means []\nlet w-mean 0\n\nforeach (get-degree-list) [ deg -> \n  set w-mean mean [w] of turtles with [ count my-links = deg]\n  set w-means lput w-mean w-means\n  plotxy deg w-mean\n]\n\nset-plot-y-range 0 (round (max w-means)) + 1\n\nset-plot-x-range 0 (max deg-l + 1)"
 
-SWITCH
-0
-210
-147
-243
-ER-or-BA-model
-ER-or-BA-model
-0
-1
--1000
-
 PLOT
 0
-415
+485
 225
-675
+745
 Degree Distribution
 Degree
 # of nodes
@@ -435,18 +453,38 @@ PENS
 
 SLIDER
 0
-165
+285
 225
-198
+318
 num-nodes-start-with-walker
 num-nodes-start-with-walker
 1
 num-nodes
-26.0
+3.0
 1
 1
 NIL
 HORIZONTAL
+
+CHOOSER
+0
+10
+225
+55
+network-model
+network-model
+"Erdős–Rényi" "Barabási–Albert"
+0
+
+CHOOSER
+0
+130
+225
+175
+network-layout
+network-layout
+"Circular Degree Sorted Layout" "Spring Layout"
+0
 
 @#$#@#$#@
 ## ACKNOWLEDGEMENT
