@@ -34,7 +34,7 @@ A more realistic simulation can be done using the stochastic version of the rand
 
 ## RELATED MODELS
 
-Stochastic Random Walk.
+Stochastic Random Walk
 
 ## NETLOGO FEATURES
 
