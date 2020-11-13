@@ -12,7 +12,7 @@ In the visualization, size of a node at each time stamp is proportional to the n
 
 At t time step, the number of walkers on node i is derived using the following equation:
 
-<img src=“Images/Equation1.PNG”
+<img src=“Images/Equation1.PNG”>
 
 where,
 p = diffusion probability, and
