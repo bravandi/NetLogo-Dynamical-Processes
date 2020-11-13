@@ -14,9 +14,21 @@ to setup
   wire-network
 
   ask turtles [
+    let number_links count links
     set shape "circle"
-    ;set color scale-color green count link-neighbors 50 0
+
+    if count link-neighbors >= number_links / 20 [
+      set color  blue]
+    if count link-neighbors >= number_links / 50  and count link-neighbors < number_links / 20 [
+      set color scale-color green  count link-neighbors 50 0]
+    if count link-neighbors >= number_links / 100  and count link-neighbors < number_links / 50 [
+      set color scale-color yellow  count link-neighbors 50 0]
+    if count link-neighbors >= number_links / 200  and count link-neighbors < number_links / 100 [
+      set color scale-color red  count link-neighbors 50 0]
+    if count link-neighbors < number_links / 200  [
+      set color scale-color pink  count link-neighbors 50 0]
     ;set size 0.5
+
     ;setxy random-xcor random-ycor
   ]
 
@@ -285,7 +297,7 @@ num-nodes
 num-nodes
 10
 500
-100.0
+180.0
 5
 1
 NIL
@@ -300,7 +312,7 @@ average-degree
 average-degree
 1
 10
-6.6
+5.7
 0.1
 1
 NIL
@@ -469,7 +481,7 @@ num-nodes-start-with-walker
 num-nodes-start-with-walker
 1
 num-nodes
-3.0
+7.0
 1
 1
 NIL
@@ -483,7 +495,7 @@ CHOOSER
 network-model
 network-model
 "Erdős–Rényi" "Barabási–Albert"
-0
+1
 
 CHOOSER
 0
