@@ -10,6 +10,14 @@ This model may be useful in understanding the basic properties of dynamic proces
 For a given random network, a certain number of walkers are placed on a random node. Then temporal recursive equations are used compute the number of walkers at every node in the graph. There are two components of the random walk for a given node. The OUT component considers some walkers move out of a node with a fixed predefined probability. The IN component adds up all the walkers coming from the neighboring nodes. Walkers move out of the neighboring nodes with the same diffusion probability and gets distributed uniformly across all the links connected to it.
 In the visualization, size of a node at each time stamp is proportional to the number of walkers on it. 
 
+At t time step, the number of walkers on node i is derived using the following equation:
+
+<img src=“Images/Equation1.PNG”>
+
+where,
+p = diffusion probability, and
+A = Adjacency matrix
+
 ## HOW TO USE IT
 
 Choose the size of network that you want to model using the NODE-COUNT slider. Choose the expected density of links in the network using the LINK-COUNT slider.
