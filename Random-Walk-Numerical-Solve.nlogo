@@ -32,6 +32,11 @@ to setup
     ;setxy random-xcor random-ycor
   ]
 
+  ; TODO in the begining of model the plots have error, cab we do something about it?
+  ; Also, we need a tick for degree distribution to be plotted, can we avoit it?
+  tick
+  ;plot 1
+
   ;set p 0.25
   reset
 end
@@ -468,7 +473,7 @@ Degree
 10.0
 true
 false
-"clear-plot" "clear-plot"
+";clear-plot" ";clear-plot"
 PENS
 "default" 1.0 1 -16777216 false "" "let max-degree max [count link-neighbors] of turtles\nplot-pen-reset  ;; erase what we plotted before\nset-plot-x-range 1 (max-degree + 1)  ;; + 1 to make room for the width of the last bar\nhistogram [count link-neighbors] of turtles"
 
@@ -481,7 +486,7 @@ num-nodes-start-with-walker
 num-nodes-start-with-walker
 1
 num-nodes
-7.0
+3.0
 1
 1
 NIL
@@ -495,7 +500,7 @@ CHOOSER
 network-model
 network-model
 "Erdős–Rényi" "Barabási–Albert"
-1
+0
 
 CHOOSER
 0
@@ -505,7 +510,7 @@ CHOOSER
 network-layout
 network-layout
 "Circular Degree Sorted Layout" "Spring Layout"
-0
+1
 
 @#$#@#$#@
 ## ACKNOWLEDGEMENT
