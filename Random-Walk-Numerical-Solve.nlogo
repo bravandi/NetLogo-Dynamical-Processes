@@ -61,7 +61,7 @@ to go
   ask turtles [
     let i who
     ;print (word "I am:" i)
-    let out w-prev * diffusion-probability
+    let out w-prev * Move-Out-Rate
 
     let in 0
 
@@ -72,7 +72,7 @@ to go
 
       if neighbor-degree > 0 [
 
-        set in (in + (matrix:get adj j i) * (diffusion-probability / neighbor-degree) * ([w-prev] of turtle j))
+        set in (in + (matrix:get adj j i) * (Move-Out-Rate / neighbor-degree) * ([w-prev] of turtle j))
       ]
 
       set j (j + 1)
@@ -104,7 +104,14 @@ to wire-network
     nw:generate-preferential-attachment turtles links num-nodes average-degree
   ]
 
-  repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
+  if network-layout = "Spring Layout"[
+    repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
+  ]
+
+  if network-layout = "Circular Degree Sorted Layout" [
+    layout-circle sort-by [ [a b] -> [count link-neighbors] of a < [count link-neighbors] of b ] turtles 14
+  ]
+
   ;layout-spring turtles links 0.2 5 1
 
   ;layout
@@ -278,7 +285,7 @@ num-nodes
 num-nodes
 10
 500
-50.0
+100.0
 5
 1
 NIL
@@ -392,8 +399,8 @@ SLIDER
 210
 225
 243
-diffusion-probability
-diffusion-probability
+Move-Out-Rate
+Move-Out-Rate
 0
 1
 0.1
