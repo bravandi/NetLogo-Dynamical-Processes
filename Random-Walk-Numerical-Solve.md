@@ -12,10 +12,10 @@ In the visualization, size of a node at each time stamp is proportional to the n
 
 At t time step, the number of walkers on node i is derived using the following equation:
 
-![formula](https://render.githubusercontent.com/render/math?math=N_i%20(%20t%20)=N_i%20(%20t-1%20)%20-%20p%20N_i%20(%20t-1)%2B+%20\sum_j%20A_j_i%20p%20N_j%20(%20t-1)%20/%20\sum_l%20A_j_l%20)
+<img src=“Images/Equation1.PNG”
 
 where,
-p = diffusion probability
+p = diffusion probability, and
 A = Adjacency matrix
 
 ## HOW TO USE IT
