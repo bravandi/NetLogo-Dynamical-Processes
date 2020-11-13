@@ -1,0 +1,14 @@
+/temp/
+/data/
+.*
+*.csv
+*.txt
+*.xlsx
+*.xls
+*.png
+*.html
+*.pkl
+*.zip
+*.pdf
+net-adj.txt
+*.tmp.nlogo
