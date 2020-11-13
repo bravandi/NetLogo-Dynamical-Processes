@@ -1,3 +1,5 @@
+;;;testtest
+
 extensions [ nw matrix ]
 
 globals [adj PAnetwork? ]
