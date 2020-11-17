@@ -16,17 +16,25 @@ to setup
   ask turtles [
     let number_links count links
     set shape "circle"
+    if color-code = "random" [set color random color]
+    if color-code = "degree single gradient" [set color scale-color blue  count link-neighbors 50 0 ]
+    if color-code = "degree bin multi gradients (Blue>Green>Yellow>Brown>Pink)" [
+      let max_degree max [count link-neighbors] of turtles
+      let min-degree min [count link-neighbors] of turtles
+      let bin_degree (max_degree - min-degree) / 5
+      if count link-neighbors >= 4 * bin_degree [
+        set color  blue]
+      if count link-neighbors >= 3 * bin_degree  and count link-neighbors < 4 * bin_degree [
+        set color scale-color green  count link-neighbors 50 0]
+      if count link-neighbors >= 2 * bin_degree  and count link-neighbors < 3 * bin_degree [
+        set color scale-color yellow  count link-neighbors 50 0]
+      if count link-neighbors >= bin_degree  and count link-neighbors < 2 * bin_degree [
+        set color scale-color brown  count link-neighbors 50 0]
+      if count link-neighbors < bin_degree [
+        set color scale-color pink  count link-neighbors 50 0]
 
-    if count link-neighbors >= number_links / 20 [
-      set color  blue]
-    if count link-neighbors >= number_links / 50  and count link-neighbors < number_links / 20 [
-      set color scale-color green  count link-neighbors 50 0]
-    if count link-neighbors >= number_links / 100  and count link-neighbors < number_links / 50 [
-      set color scale-color yellow  count link-neighbors 50 0]
-    if count link-neighbors >= number_links / 200  and count link-neighbors < number_links / 100 [
-      set color scale-color red  count link-neighbors 50 0]
-    if count link-neighbors < number_links / 200  [
-      set color scale-color pink  count link-neighbors 50 0]
+    ]
+
     ;set size 0.5
 
     ;setxy random-xcor random-ycor
@@ -117,7 +125,8 @@ to wire-network
   ]
 
   if network-layout = "Spring Layout"[
-    repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
+    ;repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
+    repeat 100 [ layout-spring turtles links 0.5 10 5 ] ;; lays the nodes in a triangle
   ]
 
   if network-layout = "Circular Degree Sorted Layout" [
@@ -272,10 +281,10 @@ ticks
 30.0
 
 BUTTON
-0
-325
-75
-358
+5
+385
+80
+418
 NIL
 setup
 NIL
@@ -312,17 +321,17 @@ average-degree
 average-degree
 1
 10
-5.7
+6.3
 0.1
 1
 NIL
 HORIZONTAL
 
 MONITOR
-0
-430
-61
-475
+5
+490
+66
+535
 max-deg
 max [count link-neighbors] of turtles
 1
@@ -330,10 +339,10 @@ max [count link-neighbors] of turtles
 11
 
 MONITOR
-137
-430
-194
-475
+142
+490
+199
+535
 #links
 count links
 1
@@ -341,10 +350,10 @@ count links
 11
 
 MONITOR
-67
-430
-133
-475
+72
+490
+138
+535
 min-deg
 min [count link-neighbors] of turtles
 1
@@ -352,10 +361,10 @@ min [count link-neighbors] of turtles
 11
 
 BUTTON
-85
-325
-170
-358
+90
+385
+175
+418
 NIL
 go
 T
@@ -369,10 +378,10 @@ NIL
 1
 
 BUTTON
-0
-365
-165
-398
+5
+425
+170
+458
 NIL
 reset
 NIL
@@ -407,10 +416,10 @@ PENS
 "Q4" 1.0 0 -955883 true "" "plot avg-walkers 3"
 
 SLIDER
-0
-210
-225
-243
+5
+270
+230
+303
 Move-Out-Rate
 Move-Out-Rate
 0
@@ -422,10 +431,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-0
-250
-225
-283
+5
+310
+230
+343
 total_walkers
 total_walkers
 500
@@ -455,10 +464,10 @@ PENS
 "pen-0" 1.0 2 -16777216 true "" "let deg-l get-degree-list\nlet w-means []\nlet w-mean 0\n\nforeach (get-degree-list) [ deg -> \n  set w-mean mean [w] of turtles with [ count my-links = deg]\n  set w-means lput w-mean w-means\n  plotxy deg w-mean\n]\n\nset-plot-y-range 0 (round (max w-means)) + 1\n\nset-plot-x-range 0 (max deg-l + 1)"
 
 PLOT
-0
-485
-225
-745
+5
+545
+230
+805
 Degree Distribution
 Degree
 # of nodes
@@ -473,15 +482,15 @@ PENS
 "default" 1.0 1 -16777216 false "" "let max-degree max [count link-neighbors] of turtles\nplot-pen-reset  ;; erase what we plotted before\nset-plot-x-range 1 (max-degree + 1)  ;; + 1 to make room for the width of the last bar\nhistogram [count link-neighbors] of turtles"
 
 SLIDER
-0
-285
-225
-318
+5
+345
+230
+378
 num-nodes-start-with-walker
 num-nodes-start-with-walker
 1
 num-nodes
-7.0
+8.0
 1
 1
 NIL
@@ -506,6 +515,16 @@ network-layout
 network-layout
 "Circular Degree Sorted Layout" "Spring Layout"
 0
+
+CHOOSER
+0
+180
+225
+225
+color-code
+color-code
+"random" "degree single gradient" "degree bin multi gradients (Blue>Green>Yellow>Brown>Pink)"
+1
 
 @#$#@#$#@
 ## ACKNOWLEDGEMENT
