@@ -14,8 +14,9 @@ to setup
   wire-network
 
   ask turtles [
-    let number_links count links
+
     set shape "circle"
+    set label " "
     if color-code = "random" [set color random color]
     if color-code = "degree single gradient" [set color scale-color blue  count link-neighbors 50 0 ]
     if color-code = "degree bin multi gradients (Blue>Green>Yellow>Brown>Pink)" [
@@ -55,7 +56,7 @@ to reset
   ask n-of num-nodes-start-with-walker turtles [
     set w num_tu
     set w-prev num_tu
-    set label who
+    ;set label who
   ]
 
   ;reset-ticks
@@ -514,7 +515,7 @@ CHOOSER
 network-layout
 network-layout
 "Circular Degree Sorted Layout" "Spring Layout"
-0
+1
 
 CHOOSER
 0
@@ -524,7 +525,7 @@ CHOOSER
 color-code
 color-code
 "random" "degree single gradient" "degree bin multi gradients (Blue>Green>Yellow>Brown>Pink)"
-1
+2
 
 @#$#@#$#@
 ## ACKNOWLEDGEMENT
