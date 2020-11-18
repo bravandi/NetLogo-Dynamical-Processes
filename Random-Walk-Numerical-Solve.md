@@ -32,8 +32,11 @@ Over time, the number of walkers on each node saturates. The final steady-state 
 Irrespective of whether the initial walkers are concentrated on a single node or distributed across multiple nodes, same steady state is achieved for all the nodes. 
 
 Colorirng of the nodes is based on their degrees. There are three coloring schemes in this models:
+
 a. random: Nodes are colored randomly irrespective of their degrees.
+
 b. degree single-gradient: Different shades of the same color (here it is blue) is used to distinguish between high and low degree nodes. 
+
 c. degree bin multi-gradient: The nodes have been divided into 5 bins based on their degrees. Blue nodes have the highest degrees, whereas the pink nodes correspond to the lowest degree group (hierarchy of the colors is: Blue> Green > Yellow > Brown > Pink). Within each bin, gradients represent degree variations.  
 
 Color of a node represents its degree, whereas its size corresponds to the number of walkers on it.  
