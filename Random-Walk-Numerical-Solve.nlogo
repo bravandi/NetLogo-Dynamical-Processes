@@ -125,7 +125,12 @@ to wire-network
     nw:generate-preferential-attachment turtles links num-nodes average-degree
   ]
 
-  if network-layout = "Spring Layout"[
+  if network-layout = "Spring Layout" and network-model = "Erdős–Rényi" [
+    repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
+    ;repeat 100 [ layout-spring turtles links 0.5 10 5 ] ;; lays the nodes in a triangle
+  ]
+
+  if network-layout = "Spring Layout" and network-model = "Barabási–Albert" [
     ;repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
     repeat 100 [ layout-spring turtles links 0.5 10 5 ] ;; lays the nodes in a triangle
   ]
@@ -396,10 +401,10 @@ NIL
 1
 
 PLOT
-1095
-35
-1590
-410
+1050
+10
+1495
+370
 Avg Walkers in Degree Quartiles
 time
 avg walkers
@@ -447,10 +452,10 @@ NIL
 HORIZONTAL
 
 PLOT
-1090
-445
+1050
+400
 1490
-760
+735
 Degree vs Average Number of Walkers
 degree
 avg walkers
@@ -491,7 +496,7 @@ num-nodes-start-with-walker
 num-nodes-start-with-walker
 1
 num-nodes
-8.0
+4.0
 1
 1
 NIL
@@ -505,7 +510,7 @@ CHOOSER
 network-model
 network-model
 "Erdős–Rényi" "Barabási–Albert"
-1
+0
 
 CHOOSER
 0
