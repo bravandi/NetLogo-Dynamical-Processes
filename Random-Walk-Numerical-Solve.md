@@ -43,6 +43,14 @@ Color of a node represents its degree, whereas its size corresponds to the numbe
 
 Since this model uses deterministic equations, the number of walkers can be fractional. More realistic simulation can be achieved via the stochastic model.
 
+### Nodes Color Coding
+
+Node colors are determined based on the degree quartile they belong to within the network's degree distribution. 
+The higher degree a node has, the darker it color is. 
+
+[comment]: <> (![Equation 1]&#40;https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/Color_Code_for_Node_Degree.PNG&#41;)
+![Equation 1](Images/Color_Code_for_Node_Degree.PNG)
+
 ## THINGS TO TRY
 
 Try running the model with a fixed number of nodes and links. Observe the plots for different degree nodes. Try increasing the number of nodes and links and observe when the number of walkers on a node starts saturating. Try the simulations by placing all the walkers on a single node and distributing the walkers across multiple nodes initially.
