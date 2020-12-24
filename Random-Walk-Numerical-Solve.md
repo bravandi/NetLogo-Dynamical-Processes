@@ -48,7 +48,7 @@ Since this model uses deterministic equations, the number of walkers can be frac
 Node colors are determined based on the degree quartile they belong to within the network's degree distribution. 
 The higher degree a node has, the darker it color is. 
 
-[Figure nodes color code](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/Color_Code_for_Node_Degree.png)
+![Figure nodes color code](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/Color_Code_for_Node_Degree.png)
 
 ## THINGS TO TRY
 
