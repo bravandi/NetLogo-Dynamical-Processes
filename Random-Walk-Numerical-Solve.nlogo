@@ -23,6 +23,7 @@ to setup
       let max_degree max [count link-neighbors] of turtles
       let min-degree min [count link-neighbors] of turtles
       let bin_degree (max_degree - min-degree) / 5
+
       if count link-neighbors >= 4 * bin_degree [
         set color  blue]
       if count link-neighbors >= 3 * bin_degree  and count link-neighbors < 4 * bin_degree [
@@ -82,7 +83,7 @@ to go
   ask turtles [
     let i who
     ;print (word "I am:" i)
-    let out w-prev * Move-Out-Rate
+    let out w-prev * diffusion-probability
 
     let in 0
 
@@ -93,7 +94,7 @@ to go
 
       if neighbor-degree > 0 [
 
-        set in (in + (matrix:get adj j i) * (Move-Out-Rate / neighbor-degree) * ([w-prev] of turtle j))
+        set in (in + (matrix:get adj j i) * (diffusion-probability / neighbor-degree) * ([w-prev] of turtle j))
       ]
 
       set j (j + 1)
@@ -143,7 +144,7 @@ to wire-network
 
   ;layout
 
-  let file-name "net-adj.txt"
+  let file-name (word "net-adj-run-" behaviorspace-run-number ".txt")
 
   nw:save-matrix file-name
 
@@ -160,12 +161,12 @@ to wire-network
   ]
   file-close
 
-  print "ROW LIST"
-  print matrix-list
+  ;print "ROW LIST"
+  ;print matrix-list
   ;print matrix:from-row-list [[0.00 1.00 0.00 ] [1.00 0.00 1.00 ] [0.00 1.00 0.00 ]]
-  print "MAT"
+  ;print "MAT"
   set adj matrix:from-row-list matrix-list
-  print adj
+  ;print adj
 end
 
 
@@ -187,6 +188,10 @@ to layout
   set x-offset limit-magnitude x-offset 0.1
   set y-offset limit-magnitude y-offset 0.1
   ask turtles [ setxy (xcor - x-offset / 2) (ycor - y-offset / 2) ]
+end
+
+to-report report-avg-walker-quartiles
+  report (word (avg-walkers 0) "," (avg-walkers 1) "," (avg-walkers 2) "," (avg-walkers 3))
 end
 
 to-report limit-magnitude [number limit]
@@ -426,11 +431,11 @@ SLIDER
 270
 230
 303
-Move-Out-Rate
-Move-Out-Rate
+diffusion-probability
+diffusion-probability
 0
 1
-0.1
+0.2
 0.05
 1
 NIL
@@ -445,7 +450,7 @@ total_walkers
 total_walkers
 500
 1000
-600.0
+500.0
 100
 1
 NIL
@@ -901,6 +906,38 @@ NetLogo 6.1.1
 setup wire1
 @#$#@#$#@
 @#$#@#$#@
+<experiments>
+  <experiment name="experiment" repetitions="2" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="200"/>
+    <metric>report-avg-walker-quartiles</metric>
+    <enumeratedValueSet variable="total_walkers">
+      <value value="400"/>
+      <value value="500"/>
+      <value value="600"/>
+    </enumeratedValueSet>
+    <steppedValueSet variable="diffusion-probability" first="0.1" step="0.05" last="0.2"/>
+    <enumeratedValueSet variable="average-degree">
+      <value value="6.3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="network-model">
+      <value value="&quot;Erdős–Rényi&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="network-layout">
+      <value value="&quot;Spring Layout&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="num-nodes">
+      <value value="180"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="num-nodes-start-with-walker">
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="color-code">
+      <value value="&quot;degree bin multi gradients (Blue&gt;Green&gt;Yellow&gt;Brown&gt;Pink)&quot;"/>
+    </enumeratedValueSet>
+  </experiment>
+</experiments>
 @#$#@#$#@
 @#$#@#$#@
 default
