@@ -317,7 +317,7 @@ num-nodes
 num-nodes
 10
 500
-180.0
+250.0
 5
 1
 NIL
@@ -332,7 +332,7 @@ average-degree
 average-degree
 1
 10
-6.3
+6.0
 0.1
 1
 NIL
@@ -416,7 +416,7 @@ avg walkers
 0.0
 6.0
 0.0
-5.0
+1.0
 true
 true
 "" ""
@@ -448,10 +448,10 @@ SLIDER
 343
 total_walkers
 total_walkers
-500
+10
 1000
 500.0
-100
+10
 1
 NIL
 HORIZONTAL
@@ -501,7 +501,7 @@ num-nodes-start-with-walker
 num-nodes-start-with-walker
 1
 num-nodes
-4.0
+10.0
 1
 1
 NIL
@@ -525,7 +525,7 @@ CHOOSER
 network-layout
 network-layout
 "Circular Degree Sorted Layout" "Spring Layout"
-1
+0
 
 CHOOSER
 0
@@ -567,6 +567,17 @@ Since this model uses deterministic equations, the number of walkers can be frac
 ## THINGS TO TRY
 
 Try running the model with a fixed number of nodes and links. Observe the plots for different degree nodes. Try increasing the number of nodes and links and observe when the number of walkers on a node starts saturating. Try the simulations by placing all the walkers on a single node and distributing the walkers across multiple nodes initially.
+
+1. Explore the characteristic time of simulation: Check at which time step the number of agents start saturating across all the degree classes i.e. the degree VS the average number of walkers plot becomes a straight line. 
+
+2. Study from multiple simulations how the characteristic time changes with the following:
+
+i. Network characteristics: This includes the number of nodes in the network and the degree distirbution of the netwrk.
+
+ii. Diffusion characteristics; This includes the diffusion probability, the initial number of walkers, and the number of nodes with the initial groupd of walkers.
+
+3. Run the behaviour space and generate multiple simulations under the same network and diffusion set-up. Generate plots with the the error margins using the median, the 97.5 percentile as the upper bound, and the 2.5% percentile as the lower bound. Do this for both the plots: averagre walkers VS degree quaartiles, degree VS average number of walkers.
+
 
 ## EXTENDING THE MODEL
 
