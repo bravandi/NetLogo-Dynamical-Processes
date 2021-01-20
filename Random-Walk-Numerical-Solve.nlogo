@@ -118,6 +118,8 @@ end
 
 to wire-network
 
+  if read-static-network = false [
+
   if network-model = "Erdős–Rényi" [
     nw:generate-random turtles links num-nodes average-degree / num-nodes
   ]
@@ -125,28 +127,22 @@ to wire-network
   if network-model = "Barabási–Albert" [
     nw:generate-preferential-attachment turtles links num-nodes average-degree
   ]
-
-  if network-layout = "Spring Layout" and network-model = "Erdős–Rényi" [
-    repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
-    ;repeat 100 [ layout-spring turtles links 0.5 10 5 ] ;; lays the nodes in a triangle
-  ]
-
-  if network-layout = "Spring Layout" and network-model = "Barabási–Albert" [
-    ;repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
-    repeat 100 [ layout-spring turtles links 0.5 10 5 ] ;; lays the nodes in a triangle
-  ]
-
-  if network-layout = "Circular Degree Sorted Layout" [
-    layout-circle sort-by [ [a b] -> [count link-neighbors] of a < [count link-neighbors] of b ] turtles 14
   ]
 
   ;layout-spring turtles links 0.2 5 1
 
   ;layout
 
-  let file-name (word "net-adj-run-" behaviorspace-run-number ".txt")
+  let file-name ""
 
-  nw:save-matrix file-name
+  ifelse read-static-network = true [
+    set file-name (word "static-network.txt")
+    nw:load-matrix file-name turtles links
+  ]
+  [
+    set file-name (word "net-adj-run-" behaviorspace-run-number ".txt")
+    nw:save-matrix file-name
+  ]
 
   let matrix-list []
 
@@ -167,6 +163,20 @@ to wire-network
   ;print "MAT"
   set adj matrix:from-row-list matrix-list
   ;print adj
+
+  if network-layout = "Spring Layout" and network-model = "Erdős–Rényi" [
+    repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
+    ;repeat 100 [ layout-spring turtles links 0.5 10 5 ] ;; lays the nodes in a triangle
+  ]
+
+  if network-layout = "Spring Layout" and network-model = "Barabási–Albert" [
+    ;repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
+    repeat 100 [ layout-spring turtles links 0.5 10 5 ] ;; lays the nodes in a triangle
+  ]
+
+  if network-layout = "Circular Degree Sorted Layout" [
+    layout-circle sort-by [ [a b] -> [count link-neighbors] of a < [count link-neighbors] of b ] turtles 14
+  ]
 end
 
 
@@ -198,6 +208,24 @@ to-report limit-magnitude [number limit]
   if number > limit [ report limit ]
   if number < (- limit) [ report (- limit) ]
   report number
+end
+
+to-report stop-condition-saturation
+  let deg-l get-degree-list
+  let w-means []
+  let w-mean 0
+
+  foreach (get-degree-list) [ deg ->
+    set w-mean mean [w] of turtles with [ count my-links = deg]
+    set w-means lput w-mean w-means
+  ]
+
+  let reg matrix:regress (matrix:from-column-list (list deg-l w-means))
+
+  if item 0 item 1 reg > 0.99 [report true]
+
+  report false
+
 end
 
 to-report calc-pct [ #pct #vals ]
@@ -317,7 +345,7 @@ num-nodes
 num-nodes
 10
 500
-250.0
+180.0
 5
 1
 NIL
@@ -332,7 +360,7 @@ average-degree
 average-degree
 1
 10
-6.0
+6.3
 0.1
 1
 NIL
@@ -435,7 +463,7 @@ diffusion-probability
 diffusion-probability
 0
 1
-0.2
+0.1
 0.05
 1
 NIL
@@ -450,7 +478,7 @@ total_walkers
 total_walkers
 10
 1000
-500.0
+400.0
 10
 1
 NIL
@@ -501,7 +529,7 @@ num-nodes-start-with-walker
 num-nodes-start-with-walker
 1
 num-nodes
-10.0
+4.0
 1
 1
 NIL
@@ -525,7 +553,7 @@ CHOOSER
 network-layout
 network-layout
 "Circular Degree Sorted Layout" "Spring Layout"
-0
+1
 
 CHOOSER
 0
@@ -536,6 +564,17 @@ color-code
 color-code
 "random" "degree single gradient" "degree bin multi gradients (Blue>Green>Yellow>Brown>Pink)"
 2
+
+SWITCH
+0
+230
+162
+263
+read-static-network
+read-static-network
+0
+1
+-1000
 
 @#$#@#$#@
 ## ACKNOWLEDGEMENT
@@ -921,7 +960,8 @@ setup wire1
   <experiment name="experiment" repetitions="2" runMetricsEveryStep="true">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="200"/>
+    <timeLimit steps="400"/>
+    <exitCondition>stop-condition-saturation</exitCondition>
     <metric>report-avg-walker-quartiles</metric>
     <enumeratedValueSet variable="total_walkers">
       <value value="400"/>
