@@ -136,7 +136,12 @@ to wire-network
   let file-name ""
 
   ifelse read-static-network = true [
-    set file-name (word "static-network.txt")
+    ifelse network-model = "Erdős–Rényi"[
+      set file-name (word "static-network-ER.adj")
+    ]
+    [
+       set file-name (word "static-network-BA.adj")
+    ]
     nw:load-matrix file-name turtles links
   ]
   [
