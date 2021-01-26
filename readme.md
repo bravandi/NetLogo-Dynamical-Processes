@@ -18,6 +18,16 @@ where,
 p = diffusion probability, and
 A = Adjacency matrix
 
+The diagrams below show the NetLogo frontend at the beginning and at the end of the random walk process:
+
+Below we have a BA graph with 180 nodes. 600 walkers are placed across 8 nodes, which are larger in size in the intiial layout below. 
+
+![Initial Circular Layout](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/Initial_circular_layout.PNG)
+
+After the completion of the random walk process, the walkers spread across different degree nodes. The higher degree nodes get more walkers, as we see that the blue colored nodes (higher degree bin) are larger in size.
+
+!Equillibrium Circular Layout](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/Equilibrium_circular_layout.PNG)
+
 ## HOW TO USE IT
 
 Choose the size of network that you want to model using the NODE-COUNT slider. Choose the expected density of links in the network using the LINK-COUNT slider.
