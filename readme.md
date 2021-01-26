@@ -18,7 +18,7 @@ where,
 p = diffusion probability, and
 A = Adjacency matrix
 
-The diagrams below show the NetLogo frontend at the beginning and at the end of the random walk process:
+The diagrams below show the circualr layouts in the NetLogo frontend at the beginning and at the end of the random walk process on a BA network:
 
 Below we have a BA graph with 180 nodes. 600 walkers are placed across 8 nodes, which are larger in size in the intiial layout below. 
 
