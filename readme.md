@@ -18,7 +18,7 @@ where,
 p = diffusion probability, and
 A = Adjacency matrix
 
-The diagrams below show the circualr layouts in the NetLogo frontend at the beginning and at the end of the random walk process on a BA network:
+The diagrams below show the circular degree sorted layouts in the NetLogo frontend at the beginning and at the end of the random walk process on a BA network:
 
 Below we have a BA graph with 180 nodes. 600 walkers are placed across 8 nodes, which are larger in size in the intiial layout below. 
 
@@ -27,6 +27,12 @@ Below we have a BA graph with 180 nodes. 600 walkers are placed across 8 nodes, 
 After the completion of the random walk process, the walkers spread across different degree nodes. The higher degree nodes get more walkers, as we see that the blue colored nodes (higher degree bin) are larger in size.
 
 ![Equillibrium Circular Layout](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/Equilibrium_circular_layout.PNG)
+
+Our implementation also supports the spring layout. Below are the spring layout based visualizations of the same process:
+
+![Initial Spring Layout](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/Initial_spring_layout.PNG)
+
+![Equillibrium Spring Layout](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/Equilibrium_spring_layout.PNG)
 
 ## HOW TO USE IT
 
