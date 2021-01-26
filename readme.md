@@ -26,7 +26,7 @@ Below we have a BA graph with 180 nodes. 600 walkers are placed across 8 nodes, 
 
 After the completion of the random walk process, the walkers spread across different degree nodes. The higher degree nodes get more walkers, as we see that the blue colored nodes (higher degree bin) are larger in size.
 
-!Equillibrium Circular Layout](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/Equilibrium_circular_layout.PNG)
+![Equillibrium Circular Layout](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/Equilibrium_circular_layout.PNG)
 
 ## HOW TO USE IT
 
