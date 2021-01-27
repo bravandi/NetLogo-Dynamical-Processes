@@ -78,7 +78,7 @@ Saturation time shows a decreasing trend with increasing diffusion probability. 
 
 Similar assymetric error bars are observed for the ER graph while studying saturation time against network average degree. 
 
-![Figure nodes color code](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/saturation_time_vs_avg_k.png)
+![Figure nodes color code](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/saturation_time_vs_avg_k.png)
 
 Note that the upper bound in the error bars correspond to the 95th percentile, the lower error bar corresponds to the 5th percentile and are plotted across the median value. 
 
