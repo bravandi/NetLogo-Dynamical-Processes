@@ -70,6 +70,18 @@ The higher degree a node has, the darker it color is.
 
 Try running the model with a fixed number of nodes and links. Observe the plots for different degree nodes. Try increasing the number of nodes and links and observe when the number of walkers on a node starts saturating. Try the simulations by placing all the walkers on a single node and distributing the walkers across multiple nodes initially.
 
+As an example analysis, we have studied the saturation time of the random walk process across ER and BA networks for different diffusion probabilites and different average degrees. Both of the networks have 180 nodes. 400 walkers are randomly distirbuted in the network across 8 nodes. 
+
+Saturation time shows a decreasing trend with increasing diffusion probability. The error bars for 100 simulations are symmetric in nature for the BA network, but has a wider upper bound for the ER network. This suggests that random graphs show different stochastic behavior for dynamical processes. 
+
+![Figure nodes color code](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/saturation_time_vs_p.png)
+
+Similar assymetric error bars are observed for the ER graph while studying saturation time against network average degree. 
+
+![Figure nodes color code](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/saturation_time_vs_avg_k.png)
+
+Note that the upper bound in the error bars correspond to the 95th percentile, the lower error bar corresponds to the 5th percentile and are plotted across the median value. 
+
 ## EXTENDING THE MODEL
 
 A more realistic simulation can be done using the stochastic version of the random walk model. Instead of multiplying the diffusion probability to get the number of walkers diffusing from a node at a given instance, an integer number is chosen based on multinomial distributions. This shows similar temporal behavior of the number of walkers across all the nodes with noise added on the trend seen in the deterministic model.
