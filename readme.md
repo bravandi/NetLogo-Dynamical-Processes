@@ -18,6 +18,15 @@ where,
 p = diffusion probability, and
 A = Adjacency matrix
 
+### Nodes Color Coding
+
+Node colors are determined based on the degree quartile they belong to within the network's degree distribution. 
+The higher degree a node has, the darker it color is. 
+
+![Figure nodes color code](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/Color_Code_for_Node_Degree.png)
+
+### Circular and Spring Layouts 
+
 The diagrams below show the circular degree sorted layouts in the NetLogo frontend at the beginning and at the end of the random walk process on a BA network:
 
 Below we have a BA graph with 180 nodes. 600 walkers are placed across 8 nodes, which are larger in size in the intiial layout below. 
@@ -58,13 +67,6 @@ c. degree bin multi-gradient: The nodes have been divided into 5 bins based on t
 Color of a node represents its degree, whereas its size corresponds to the number of walkers on it.  
 
 Since this model uses deterministic equations, the number of walkers can be fractional. More realistic simulation can be achieved via the stochastic model.
-
-### Nodes Color Coding
-
-Node colors are determined based on the degree quartile they belong to within the network's degree distribution. 
-The higher degree a node has, the darker it color is. 
-
-![Figure nodes color code](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/Color_Code_for_Node_Degree.png)
 
 ## THINGS TO TRY
 
