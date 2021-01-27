@@ -80,7 +80,7 @@ Similar assymetric error bars are observed for the ER graph while studying satur
 
 ![Figure nodes color code](https://github.com/bravandi/NetLogo-Dynamical-Processes/blob/master/Images/saturation_time_vs_avg_k.png)
 
-Note that the upper bound in the error bars correspond to the 95th percentile, the lower error bars correspond to the 5th percentile, and theseare plotted across the median value. 
+Note that the upper bound in the error bars correspond to the 95th percentile, the lower error bars correspond to the 5th percentile, and these are plotted across the median value. 
 
 ## EXTENDING THE MODEL
 
