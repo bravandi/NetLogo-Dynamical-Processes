@@ -118,8 +118,6 @@ end
 
 to wire-network
 
-  if read-static-network = false [
-
   if network-model = "Erdős–Rényi" [
     nw:generate-random turtles links num-nodes average-degree / num-nodes
   ]
@@ -127,6 +125,19 @@ to wire-network
   if network-model = "Barabási–Albert" [
     nw:generate-preferential-attachment turtles links num-nodes average-degree
   ]
+
+  if network-layout = "Spring Layout" and network-model = "Erdős–Rényi" [
+    repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
+    ;repeat 100 [ layout-spring turtles links 0.5 10 5 ] ;; lays the nodes in a triangle
+  ]
+
+  if network-layout = "Spring Layout" and network-model = "Barabási–Albert" [
+    ;repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
+    repeat 100 [ layout-spring turtles links 0.5 10 5 ] ;; lays the nodes in a triangle
+  ]
+
+  if network-layout = "Circular Degree Sorted Layout" [
+    layout-circle sort-by [ [a b] -> [count link-neighbors] of a < [count link-neighbors] of b ] turtles 14
   ]
 
   ;layout-spring turtles links 0.2 5 1
@@ -135,19 +146,8 @@ to wire-network
 
   let file-name ""
 
-  ifelse read-static-network = true [
-    ifelse network-model = "Erdős–Rényi"[
-      set file-name (word "static-network-ER.adj")
-    ]
-    [
-       set file-name (word "static-network-BA.adj")
-    ]
-    nw:load-matrix file-name turtles links
-  ]
-  [
-    set file-name (word "net-adj-run-" behaviorspace-run-number ".txt")
-    nw:save-matrix file-name
-  ]
+  set file-name (word "net-adj-run-" behaviorspace-run-number ".txt")
+  nw:save-matrix file-name
 
   let matrix-list []
 
@@ -168,20 +168,6 @@ to wire-network
   ;print "MAT"
   set adj matrix:from-row-list matrix-list
   ;print adj
-
-  if network-layout = "Spring Layout" and network-model = "Erdős–Rényi" [
-    repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
-    ;repeat 100 [ layout-spring turtles links 0.5 10 5 ] ;; lays the nodes in a triangle
-  ]
-
-  if network-layout = "Spring Layout" and network-model = "Barabási–Albert" [
-    ;repeat 100 [ layout-spring turtles links 0.1 10 1 ] ;; lays the nodes in a triangle
-    repeat 100 [ layout-spring turtles links 0.5 10 5 ] ;; lays the nodes in a triangle
-  ]
-
-  if network-layout = "Circular Degree Sorted Layout" [
-    layout-circle sort-by [ [a b] -> [count link-neighbors] of a < [count link-neighbors] of b ] turtles 14
-  ]
 end
 
 
@@ -468,7 +454,7 @@ diffusion-probability
 diffusion-probability
 0
 1
-0.1
+0.3
 0.05
 1
 NIL
@@ -548,7 +534,7 @@ CHOOSER
 network-model
 network-model
 "Erdős–Rényi" "Barabási–Albert"
-0
+1
 
 CHOOSER
 0
@@ -558,7 +544,7 @@ CHOOSER
 network-layout
 network-layout
 "Circular Degree Sorted Layout" "Spring Layout"
-1
+0
 
 CHOOSER
 0
@@ -569,17 +555,6 @@ color-code
 color-code
 "random" "degree single gradient" "degree bin multi gradients (Blue>Green>Yellow>Brown>Pink)"
 2
-
-SWITCH
-0
-230
-162
-263
-read-static-network
-read-static-network
-0
-1
--1000
 
 @#$#@#$#@
 ## ACKNOWLEDGEMENT
