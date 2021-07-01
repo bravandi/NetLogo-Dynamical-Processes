@@ -284,13 +284,13 @@ to print-w
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-235
+345
 10
-1038
-814
+1169
+835
 -1
 -1
-24.1
+24.73
 1
 10
 1
@@ -312,9 +312,9 @@ ticks
 
 BUTTON
 5
-385
-80
-418
+400
+105
+433
 NIL
 setup
 NIL
@@ -328,10 +328,10 @@ NIL
 1
 
 SLIDER
-0
-60
-225
-93
+5
+75
+330
+108
 num-nodes
 num-nodes
 10
@@ -343,10 +343,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-0
-95
-225
-128
+5
+115
+330
+148
 average-degree
 average-degree
 1
@@ -359,9 +359,9 @@ HORIZONTAL
 
 MONITOR
 5
+445
+100
 490
-66
-535
 max-deg
 max [count link-neighbors] of turtles
 1
@@ -369,10 +369,10 @@ max [count link-neighbors] of turtles
 11
 
 MONITOR
-142
+227
+445
+327
 490
-199
-535
 #links
 count links
 1
@@ -380,10 +380,10 @@ count links
 11
 
 MONITOR
-72
+115
+445
+210
 490
-138
-535
 min-deg
 min [count link-neighbors] of turtles
 1
@@ -391,10 +391,10 @@ min [count link-neighbors] of turtles
 11
 
 BUTTON
-90
-385
-175
-418
+115
+400
+210
+433
 NIL
 go
 T
@@ -408,10 +408,10 @@ NIL
 1
 
 BUTTON
-5
-425
-170
-458
+225
+400
+330
+433
 NIL
 reset
 NIL
@@ -425,10 +425,10 @@ NIL
 1
 
 PLOT
-1050
+1190
 10
-1495
-370
+1690
+405
 Avg Walkers in Degree Quartiles
 time
 avg walkers
@@ -447,14 +447,14 @@ PENS
 
 SLIDER
 5
-270
-230
-303
+265
+330
+298
 diffusion-probability
 diffusion-probability
 0
 1
-0.3
+0.35
 0.05
 1
 NIL
@@ -463,23 +463,23 @@ HORIZONTAL
 SLIDER
 5
 310
-230
+330
 343
 total_walkers
 total_walkers
 10
 1000
-400.0
+410.0
 10
 1
 NIL
 HORIZONTAL
 
 PLOT
-1050
-400
-1490
-735
+1195
+455
+1695
+830
 Degree vs Average Number of Walkers
 degree
 avg walkers
@@ -495,9 +495,9 @@ PENS
 
 PLOT
 5
-545
-230
-805
+500
+330
+835
 Degree Distribution
 Degree
 # of nodes
@@ -513,44 +513,44 @@ PENS
 
 SLIDER
 5
-345
-230
-378
+355
+330
+388
 num-nodes-start-with-walker
 num-nodes-start-with-walker
 1
 num-nodes
-4.0
+6.0
 1
 1
 NIL
 HORIZONTAL
 
 CHOOSER
-0
-10
-225
-55
+5
+15
+330
+60
 network-model
 network-model
 "Erdős–Rényi" "Barabási–Albert"
 1
 
 CHOOSER
-0
-130
-225
-175
+5
+155
+330
+200
 network-layout
 network-layout
 "Circular Degree Sorted Layout" "Spring Layout"
-0
+1
 
 CHOOSER
-0
-180
-225
-225
+5
+210
+330
+255
 color-code
 color-code
 "random" "degree single gradient" "degree bin multi gradients (Blue>Green>Yellow>Brown>Pink)"
