@@ -17,7 +17,7 @@ to setup
 
     set shape "circle"
     set label " "
-    if color-code = "random" [set color random color]
+    ;if color-code = "random" [set color random color]
     if color-code = "degree single gradient" [set color scale-color blue  count link-neighbors 50 0 ]
     if color-code = "degree bin multi gradients (Blue>Green>Yellow>Brown>Pink)" [
       let max_degree max [count link-neighbors] of turtles
@@ -553,8 +553,8 @@ CHOOSER
 255
 color-code
 color-code
-"random" "degree single gradient" "degree bin multi gradients (Blue>Green>Yellow>Brown>Pink)"
-2
+"degree single gradient" "degree bin multi gradients (Blue>Green>Yellow>Brown>Pink)"
+1
 
 @#$#@#$#@
 ## ACKNOWLEDGEMENT
@@ -931,7 +931,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.1.1
+NetLogo 6.2.2
 @#$#@#$#@
 setup wire1
 @#$#@#$#@
