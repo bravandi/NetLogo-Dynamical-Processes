@@ -1,3 +1,5 @@
+import sys
+
 import networkx as nx
 import matplotlib.pyplot as plt
 from collections import defaultdict
@@ -32,11 +34,11 @@ def one_simulation(p_out, G_input, N_walkers, initial_node_with_walkers, run_tim
         print('  [one_simulation {} | iter_num: {}] {}'.format(time_str, iter_num, path_g))
         # G = G_ba.copy()
         G = G_input.copy()
-        N_nodes = len(G.nodes())
+        N_nodes = list(G.nodes())
 
         ### Asign the walker
         nx.set_node_attributes(G, [0], 'history')
-        initial_walkers = random.sample(range(N_nodes), initial_node_with_walkers)
+        initial_walkers = random.sample(N_nodes, initial_node_with_walkers)
         for i in initial_walkers:
             G.nodes[i]['history'] = [N_walkers / initial_node_with_walkers]
 
@@ -110,8 +112,7 @@ def task(path_g):
     pass
 
 
-if __name__ == '__main__':
-
+def main(array, step):
     k_avg_list = [
         # 1,1.5,2,2.5,3,3.5,
         4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10
@@ -143,10 +144,26 @@ if __name__ == '__main__':
     # Set the maximum number of workers
     max_workers = 400
 
+    start = array * step
+    end = start + step
+
+    print('[@RUN config] array: {} step: {} | start: {} end {}'.format(array, step, start, end))
+
     # Create a thread pool executor with the specified maximum workers
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit tasks to the executor
-        for p in all_g_path[0: 100]:
+        for p in all_g_path[start: end]:
             executor.submit(task, p)
 
     print("All threads have completed")
+    pass
+
+if __name__ == '__main__':
+    print('sys.argv', sys.argv)
+    array = int(sys.argv[1])
+    step = int(sys.argv[2])
+
+    main(array, step)
+    pass
+
+
