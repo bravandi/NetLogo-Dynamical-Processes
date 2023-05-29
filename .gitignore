@@ -7,7 +7,9 @@
 *.xls
 *.html
 *.pkl
-*.zip
 *.pdf
 net-adj.txt
 *.tmp.nlogo
+Figure-4b/data
+Figure-5a/data
+Figure-5a/res
